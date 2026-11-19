@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#171923">
+  <meta name="theme-color" content="#171923">\n  <meta name="color-scheme" content="dark light">
   <meta name="description" content="A personal Chinese-to-English webnovel reader with glossary and saved chapters.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
@@ -21,7 +21,7 @@
       <div class="section-heading"><div><p class="eyebrow">YOUR READING LIBRARY</p><h1>Open a novel</h1></div><span class="pill">Free starter</span></div>
       <label for="novelUrl">Novel or chapter URL</label>
       <div class="url-row"><input id="novelUrl" type="url" placeholder="https://example.com/novel/chapter-1" inputmode="url"><button id="loadUrlBtn" class="button primary">Open</button></div>
-      <p class="hint">Paste a chapter URL once. If the website permits browser access, NovelMTL will try to extract the chapter and discover the next link. Some Chinese sites block this; use the paste box below when that happens.</p>
+      <p class="hint">Paste a chapter URL once. Faloo URLs can use the configured Faloo Worker. Other websites are tried directly when browser access is allowed. Some sites block extraction; use the paste box below when that happens.</p>
       <div class="divider"></div>
       <label for="chapterTitle">Chapter title</label>
       <input id="chapterTitle" type="text" placeholder="Chapter 1">
@@ -37,15 +37,22 @@
     <section class="reader panel">
       <div class="reader-head">
         <div><p class="eyebrow">NOW READING</p><h2 id="readerTitle">No chapter loaded</h2><p id="readerMeta" class="hint">Your translated chapter will appear here.</p></div>
-        <button id="bookmarkBtn" class="icon-button" title="Save chapter" aria-label="Save chapter">☆</button>
+        <div class="reader-head-actions">
+          <button id="readerExitBtn" class="button ghost small" type="button">← Library</button>
+          <button id="bookmarkBtn" class="icon-button" title="Save chapter" aria-label="Save chapter">☆</button>
+        </div>
       </div>
       <div class="reader-tools">
-        <button id="showEnglishBtn" class="tab active">English</button>
-        <button id="showChineseBtn" class="tab">中文</button>
-        <button id="copyBtn" class="button ghost small">Copy text</button>
+        <div class="language-tabs"><button id="showEnglishBtn" class="tab active">English</button><button id="showChineseBtn" class="tab">中文</button></div>
+        <div class="reader-controls">
+          <button id="fontDownBtn" class="button ghost small" aria-label="Decrease font">A−</button>
+          <button id="fontUpBtn" class="button ghost small" aria-label="Increase font">A+</button>
+          <button id="readerThemeBtn" class="button ghost small" aria-label="Change reading theme">☼ Theme</button>
+          <button id="copyBtn" class="button ghost small">Copy</button>
+        </div>
       </div>
       <article id="readerContent" class="reader-content"><p class="empty">Your reading page is waiting.</p></article>
-      <div class="chapter-nav"><button id="prevBtn" class="button secondary" disabled>← Previous</button><button id="nextBtn" class="button primary" disabled>Next chapter →</button></div>
+      <div class="chapter-nav"><button id="prevBtn" class="button secondary" disabled>← Previous chapter</button><span id="chapterProgress" class="chapter-progress">Enjoy your reading</span><button id="nextBtn" class="button primary" disabled>Next chapter →</button></div>
     </section>
 
     <section class="panel">
@@ -72,6 +79,9 @@
     <section class="panel settings-panel">
       <p class="eyebrow">TRANSLATION SETTINGS</p><h2>Translation provider</h2>
       <p class="hint">This starter uses MyMemory's public translation endpoint. It is not unlimited and may have daily limits or fail. For long novels, you may later connect a provider with a suitable free quota or run your own translation backend.</p>
+      <label for="workerUrl">Faloo fetcher URL (Cloudflare Worker)</label>
+      <input id="workerUrl" type="url" placeholder="https://your-worker.your-subdomain.workers.dev">
+      <p class="hint">Set this after deploying the included faloo-worker.js file. This lets NovelMTL request publicly accessible Faloo chapters through your own Worker.</p>
       <label for="emailInput">Optional contact email (provider parameter)</label>
       <input id="emailInput" type="email" placeholder="you@example.com (optional)">
       <p class="hint warning">Do not enter passwords or private API keys here. This static app cannot safely hide secret API keys.</p>

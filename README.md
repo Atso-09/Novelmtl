@@ -36,3 +36,28 @@ A PWA service worker requires HTTPS or localhost. You can still open `index.html
 
 ## Translation endpoint
 The app calls `https://api.mymemory.translated.net/get` from the browser. Check that provider's current terms, limits and availability before relying on it for long chapters. Do not add private API keys to this public static repository.
+
+
+## Faloo integration (additional setup required)
+
+This upgrade includes `faloo-worker.js`. GitHub Pages alone cannot proxy Faloo requests. Deploy this file as a Cloudflare Worker:
+
+1. Create/sign in to a Cloudflare account.
+2. Open **Workers & Pages** → **Create** → **Create Worker**.
+3. Name it (for example `novelmtl-faloo`) and deploy the starter.
+4. Open **Edit code** and replace the sample code with the complete contents of `faloo-worker.js`.
+5. Save and deploy. Copy the Worker URL, which looks like `https://novelmtl-faloo.YOUR-SUBDOMAIN.workers.dev`.
+6. Open NovelMTL on your phone. Under **Translation settings**, paste that URL into **Faloo fetcher URL** and leave the field so it saves.
+7. Paste `https://wap.faloo.com/826957_1.html` into the novel URL field and tap **Open**.
+8. After it fetches, translate the chapter. Tap **Next chapter** to fetch the next sequential Faloo chapter.
+
+The Worker restricts requests to Faloo chapter URLs on `wap.faloo.com`, `www.faloo.com`, or `faloo.com`. It only attempts to retrieve publicly accessible pages. It does not defeat CAPTCHA, anti-bot checks, account login, VIP/paywall controls, or other access restrictions. If Faloo blocks the Worker or changes its markup, use the manual paste box.
+
+### Update GitHub Pages files
+
+Upload the contents of the `NovelMTL` folder from this upgrade ZIP to the root of your existing GitHub repository and choose **Commit changes**. This replaces the existing `app.js`, `index.html`, and `sw.js` and adds `faloo-worker.js`. Keep the repository's existing Pages settings. After deployment, refresh NovelMTL; if an old version remains cached, close the app and reopen the website in Chrome.
+
+
+## Beautiful reader update
+
+This build adds an immersive reading view that opens automatically after translation, with a calm illustrated-sky gradient wallpaper, serif reading typography, previous/next chapter controls, English/Chinese switching, font size controls, and Night/Sepia/Day reading themes. Tap **Library** to return to the setup and glossary screens.
