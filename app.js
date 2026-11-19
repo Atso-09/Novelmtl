@@ -3,7 +3,10 @@ const DB_KEY = "novelmtl_v1";
 let state = loadState();
 let current = null;
 let currentView = "en";
-let chapterQueue = [];\nlet chapterHistory = [];\nlet readerTheme = "night";\nlet readerFontSize = 19;
+let chapterQueue = [];
+let chapterHistory = [];
+let readerTheme = "night";
+let readerFontSize = 19;
 let deferredInstall = null;
 
 function loadState(){try{return JSON.parse(localStorage.getItem(DB_KEY)) || {glossary:{"小智":"Ash Ketchum","皮卡丘":"Pikachu"},chapters:[],email:"",workerUrl:""};}catch{return {glossary:{"小智":"Ash Ketchum","皮卡丘":"Pikachu"},chapters:[],email:"",workerUrl:""};}}
